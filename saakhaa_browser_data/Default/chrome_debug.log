@@ -1,5 +1,0 @@
-[0922/215738.892:INFO:CONSOLE:0] "The service worker navigation preload request was cancelled before 'preloadResponse' settled. If you intend to use 'preloadResponse', use waitUntil() or respondWith() to wait for the promise to settle.", source:  (0)
-[0922/215739.863:INFO:CONSOLE:13021] "LegacyDataMixin will be applied to all legacy elements.
-Set `_legacyUndefinedCheck: true` on element class to enable.", source: https://www.youtube.com/s/_/ytmainappweb/_/js/k=ytmainappweb.kevlar_base.en_US.z7OUTu1iCKQ.es5.O/am=AAAAgAAAcAQABQ/d=1/br=1/rs=AGKMywG0Tj2l0kwu0INjCLGx7F8Q9FgRdA/m=kevlar_base_module,kevlar_main_module,kevlar_base_sync_mod_chunk (13021)
-[0922/215740.311:INFO:CONSOLE:1] "The powerPreference option is currently ignored when calling requestAdapter() on Windows. See https://crbug.com/369219127", source:  (1)
-[0922/215740.313:INFO:CONSOLE:0] "No available adapters.", source: https://www.youtube.com/ (0)

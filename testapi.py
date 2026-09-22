@@ -7,10 +7,9 @@ load_dotenv()
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
-
-response = client.models.generate_content(
-    model="gemini-3.5-flash",
-    contents="Say hello in one sentence."
+chat = client.chats.create(
+    model="gemini-3.5-flash-lite"
 )
+response = chat.send_message("how many states are in india")
 
 print(response.text)
