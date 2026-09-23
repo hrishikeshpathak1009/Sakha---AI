@@ -5,8 +5,12 @@ import os
 import datetime
 
 from ai import ask_ai
-from browser import start_browser, open_website, close_browser
-
+from browser import (
+    open_website,
+    search_youtube,
+    play_first_video,
+    close_browser
+)
 
 
 bolo("Hellow, SAAKHAA here. Pathak ji's personal assistant. How can I help you?")
@@ -48,7 +52,7 @@ try:
         # AI
         # -------------------------
 
-        elif "using your intelligence" in text_lower or "why do you think" in text_lower or "brain" in text_lower or "think and answer" in text_lower:
+        elif "using your intelligence" in text_lower or "do you think" in text_lower or "brain" in text_lower or "think and answer" in text_lower:
 
             prompt = text_lower.replace("using your intelligence", "").strip()
 
@@ -64,6 +68,27 @@ try:
         # -------------------------
         # WEBSITES
         # -------------------------
+
+        elif "play the first video" in text_lower:
+
+            bolo("Playing the first video.")
+
+            play_first_video()
+
+        elif "search youtube for" in text_lower:
+
+            query = text_lower.replace(
+                "search youtube for",
+                 ""
+            ).strip()
+
+            if not query:
+                bolo("What should I search for?")
+                continue
+
+            bolo(f"Searching YouTube for {query}.")
+
+            search_youtube(query)
 
         elif "open youtube" in text_lower:
 
