@@ -9,6 +9,7 @@ __pycache__/
 
 # SAAKHAA browser data
 sakha_browser_data/
+saakhaa_browser_data/
 
 # Browser profiles / local browser state
 browser_data/
