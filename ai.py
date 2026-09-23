@@ -50,7 +50,38 @@ tools = [
                     type=types.Type.OBJECT,
                     properties={}
                 )
+            ),
+            types.FunctionDeclaration(
+            name="get_current_time",
+            description="Get the user's current local time.",
+            parameters=types.Schema(
+                type=types.Type.OBJECT,
+                properties={}
             )
+        ),
+        
+        types.FunctionDeclaration(
+            name="get_current_date",
+            description="Get the current date.",
+            parameters=types.Schema(
+                type=types.Type.OBJECT,
+                properties={}
+            )
+        ),
+        types.FunctionDeclaration(
+            name="open_application",
+            description="Open a supported application on the user's computer.",
+            parameters=types.Schema(
+                type=types.Type.OBJECT,
+                properties={
+                    "application": types.Schema(
+                        type=types.Type.STRING,
+                        description="The application to open, such as notepad, calculator, or paint."
+                    )
+                },
+                required=["application"]
+            )
+        )
         ]
     )
 ]
