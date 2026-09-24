@@ -1,20 +1,31 @@
-# Environment variables
-.env
-.env.*
-!.env.example
-
 # Python
+.venv/
 __pycache__/
 *.py[cod]
 
-# SAAKHAA browser data
-sakha_browser_data/
-saakhaa_browser_data/
+# Environment / secrets
+.env
 
-# Browser profiles / local browser state
-browser_data/
-chrome_data/
-browser_profile/
+# Generated audio
+*.wav
+*.mp3
+
+# Browser data
+saakhaa_browser_data/
+sakha_browser_data/
+
+# Local models
+indicvoice_model/
+
+# Temporary source/checkouts
+indic-g2p-source/
 
 # Logs
 *.log
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
