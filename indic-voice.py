@@ -8,7 +8,7 @@ pipeline = IndicPipeline(
 
 for gs, ps, audio in pipeline(
     "Hello Pathak ji, I am your personal AI assistant. How can I help you today",
-    voice="am_adam"
+    voice="af_heart"
 ):
     sf.write("sakhaa.wav", audio, 24000)
 
