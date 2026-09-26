@@ -1,12 +1,48 @@
+import asyncio
+import re
+
 from listen import listen
 from speechr import recognize
 from bolo import bolo
-from ai import ask_ai
-
-import re
+from graph import ask_saakhaa
 
 
-def main():
+# ============================================================
+# EXIT COMMANDS
+# ============================================================
+
+EXIT_WORDS = {
+    "exit",
+    "quit",
+    "stop",
+    "goodbye",
+    "bye",
+    "shutdown",
+    "terminate",
+    "sleep",
+    "power off",
+    "turn off",
+}
+
+
+def should_exit(text):
+
+    text = text.lower().strip()
+
+    return any(
+        re.search(
+            rf"\b{re.escape(word)}\b",
+            text
+        )
+        for word in EXIT_WORDS
+    )
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+async def main():
 
     bolo(
         "Hello, I am your personal assistant. "
@@ -17,10 +53,18 @@ def main():
 
         try:
 
+            # ------------------------------------------------
+            # Listen
+            # ------------------------------------------------
+
             audio = listen()
 
             if not audio:
                 continue
+
+            # ------------------------------------------------
+            # Speech → Text
+            # ------------------------------------------------
 
             text = recognize(audio)
 
@@ -29,45 +73,27 @@ def main():
 
             print(f"You: {text}")
 
-            text_lower = text.lower().strip()
+            # ------------------------------------------------
+            # Exit
+            # ------------------------------------------------
 
-            # ==========================================
-            # STOP SAAKHAA
-            # ==========================================
-
-            exit_words = {
-                "exit",
-                "quit",
-                "stop",
-                "goodbye",
-                "bye",
-                "shutdown",                
-                "terminate",
-                "end",
-                "sleep"
-            }
-
-            if any(
-                re.search(
-                    rf"\b{re.escape(word)}\b",
-                    text_lower
-                )
-                for word in exit_words
-            ):
+            if should_exit(text):
 
                 bolo("Goodbye.")
                 break
 
-            # ==========================================
-            # AI
-            # ==========================================
+            # ------------------------------------------------
+            # LangGraph + Ollama
+            # ------------------------------------------------
 
-            response = ask_ai(text)
-
-            print(
-                "AI RESPONSE:",
-                repr(response)
+            response = await ask_saakhaa(
+                text,
+                thread_id="main"
             )
+
+            # ------------------------------------------------
+            # Text → Speech
+            # ------------------------------------------------
 
             if response:
                 bolo(response)
@@ -86,5 +112,10 @@ def main():
             )
 
 
+# ============================================================
+# START
+# ============================================================
+
 if __name__ == "__main__":
-    main()
+
+    asyncio.run(main())

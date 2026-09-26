@@ -7,9 +7,9 @@ import numpy as np
 # SAAKHAA TTS CONFIG
 # --------------------------------------------------
 
-LANG_CODE = "a"                    # a = American English
-VOICE = "am_adam"        # blended female voice
-SAMPLE_RATE = 26000
+LANG_CODE = "a"          # a = American English
+VOICE = "af_heart"
+SAMPLE_RATE = 24000
 
 
 # --------------------------------------------------
@@ -23,7 +23,7 @@ pipeline = IndicPipeline(
     repo_id="Bindkushal/IndicVoice-82M"
 )
 
-print("My voice ready.")
+print("This is Sakha, My voice is ready.")
 
 
 # --------------------------------------------------
@@ -32,7 +32,8 @@ print("My voice ready.")
 
 def bolo(text):
     """
-    Convert text to speech and play it.
+    Convert text to speech and play it as soon as
+    audio chunks are generated.
     """
 
     if not text:
@@ -40,20 +41,18 @@ def bolo(text):
 
     print(f"SAAKHAA: {text}")
 
-    audio_chunks = []
-
+    # Generate and play chunks immediately
     for gs, ps, audio in pipeline(
         text,
         voice=VOICE
     ):
-        audio_chunks.append(audio)
 
-    if not audio_chunks:
-        return
+        if audio is None:
+            continue
 
-    # Join all generated chunks
-    audio = np.concatenate(audio_chunks)
+        # Make sure audio is a numpy array
+        audio = np.asarray(audio, dtype=np.float32)
 
-    # Play
-    sd.play(audio, SAMPLE_RATE)
-    sd.wait()
+        # Play this chunk immediately
+        sd.play(audio, SAMPLE_RATE)
+        sd.wait()

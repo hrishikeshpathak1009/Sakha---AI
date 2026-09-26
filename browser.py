@@ -1,84 +1,177 @@
-from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
+
 
 playwright = None
 context = None
 page = None
 
 
-def start_browser():
+# ============================================================
+# START BROWSER
+# ============================================================
 
-    global playwright, context, page
+async def start_browser():
 
-    playwright = sync_playwright().start()
+    global playwright
+    global context
+    global page
 
-    context = playwright.chromium.launch_persistent_context(
+    if context is not None:
+
+        try:
+
+            if not context.is_closed():
+
+                if page is None or page.is_closed():
+                    page = await context.new_page()
+
+                return
+
+        except Exception:
+            pass
+
+    print("Starting SAAKHAA browser...")
+
+    playwright = await async_playwright().start()
+
+    context = await playwright.chromium.launch_persistent_context(
         user_data_dir="./saakhaa_browser_data",
         headless=False
     )
 
-    page = context.pages[0] if context.pages else context.new_page()
+    if context.pages:
+        page = context.pages[0]
+    else:
+        page = await context.new_page()
 
     print("SAAKHAA browser started.")
 
 
-def open_website(url):
+# ============================================================
+# ENSURE BROWSER
+# ============================================================
 
-    if page is None:
-        start_browser()
+async def ensure_browser():
 
-    page.goto(url)
-
-def search_youtube(query):
     global page
 
-    if page is None:
-        start_browser()
+    if context is None or page is None:
 
-    # Open YouTube
-    page.goto("https://www.youtube.com")
-
-    # Find the search box
-    search_box = page.get_by_role("combobox", name="Search")
-
-    # Type the query
-    search_box.fill(query)
-
-    # Press Enter
-    search_box.press("Enter")
-
-    # Wait for results to load
-    page.wait_for_load_state("domcontentloaded")
-
-    print(f"YouTube search completed: {query}")
-
-def play_first_video():
-    global page
-
-    if page is None:
-        print("Browser is not running.")
+        await start_browser()
         return
+
+    try:
+
+        if context.is_closed() or page.is_closed():
+            await start_browser()
+
+    except Exception:
+
+        await start_browser()
+
+
+# ============================================================
+# OPEN WEBSITE
+# ============================================================
+
+async def open_website(url):
+
+    await ensure_browser()
+
+    await page.goto(
+        url,
+        wait_until="domcontentloaded"
+    )
+
+    print(f"Opened: {url}")
+
+    return f"Opened {url}"
+
+
+# ============================================================
+# SEARCH YOUTUBE
+# ============================================================
+
+async def search_youtube(query):
+
+    await ensure_browser()
+
+    await page.goto(
+        "https://www.youtube.com",
+        wait_until="domcontentloaded"
+    )
+
+    search_box = page.get_by_role(
+        "combobox",
+        name="Search"
+    )
+
+    await search_box.fill(query)
+
+    await search_box.press("Enter")
+
+    await page.wait_for_load_state(
+        "domcontentloaded"
+    )
+
+    print(
+        f"YouTube search completed: {query}"
+    )
+
+    return f"Searched YouTube for {query}"
+
+
+# ============================================================
+# PLAY FIRST VIDEO
+# ============================================================
+
+async def play_first_video():
+
+    await ensure_browser()
 
     first_video = page.locator(
         "ytd-video-renderer a#video-title"
     ).first
 
-    first_video.click()
+    await first_video.click()
 
-    print("Playing the first YouTube video.")
+    print(
+        "Playing the first YouTube video."
+    )
+
+    return "Playing the first YouTube video."
 
 
-def close_browser():
+# ============================================================
+# CLOSE BROWSER
+# ============================================================
 
-    global playwright, context, page
+async def close_browser():
 
-    if context:
-        context.close()
+    global playwright
+    global context
+    global page
 
-    if playwright:
-        playwright.stop()
+    try:
+
+        if context is not None:
+            await context.close()
+
+    except Exception:
+        pass
+
+    try:
+
+        if playwright is not None:
+            await playwright.stop()
+
+    except Exception:
+        pass
 
     context = None
     page = None
     playwright = None
 
     print("SAAKHAA browser closed.")
+
+    return "Browser closed."

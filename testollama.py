@@ -46,4 +46,4 @@ if __name__ == "__main__":
             break
 
         answer = ask_ai(text)
-        #print("SAAKHAA:", answer)
+        print("SAAKHAA:", answer)
