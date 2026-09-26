@@ -1,12 +1,10 @@
-from .browser_tools import (
-    browser_open_website,
-    browser_search_youtube,
-    browser_play_first_video
-)
+from .browser_tools import BROWSER_TOOLS
+from .system_tools import SYSTEM_TOOLS
+from .app_tools import APP_TOOLS
 
 
 TOOL_FUNCTIONS = {
-    "browser_open_website": browser_open_website,
-    "browser_search_youtube": browser_search_youtube,
-    "browser_play_first_video": browser_play_first_video
+    **BROWSER_TOOLS,
+    **SYSTEM_TOOLS,
+    **APP_TOOLS,
 }

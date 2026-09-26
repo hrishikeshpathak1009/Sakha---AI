@@ -58,18 +58,7 @@ try:
         # -------------------------
         # 4. LOCAL COMMANDS
         # -------------------------
-
-        elif "time" in text_lower:
-
-            current_time = datetime.datetime.now().strftime(
-                "%I:%M %p"
-            )
-
-            bolo(
-                f"Sir, the time is {current_time}."
-            )
-
-
+        
         elif "play bhajan" in text_lower:
 
             bolo("Playing bhajan.")

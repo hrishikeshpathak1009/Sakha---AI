@@ -1,23 +1,30 @@
 from browser import (
     open_website,
     search_youtube,
-    play_first_video
+    play_first_video,
+    close_browser,
 )
 
 
-def browser_open_website(url):
-    open_website(url)
-
-    return f"Opened the requested site"
+async def browser_open_website(url):
+    return await open_website(url)
 
 
-def browser_search_youtube(query):
-    search_youtube(query)
-
-    return f"Searched YouTube for: {query}"
+async def browser_search_youtube(query):
+    return await search_youtube(query)
 
 
-def browser_play_first_video():
-    play_first_video()
+async def browser_play_first_video():
+    return await play_first_video()
 
-    return "Played the first YouTube video."
+
+async def browser_close():
+    return await close_browser()
+
+
+BROWSER_TOOLS = {
+    "browser_open_website": browser_open_website,
+    "browser_search_youtube": browser_search_youtube,
+    "browser_play_first_video": browser_play_first_video,
+    "browser_close": browser_close,
+}
