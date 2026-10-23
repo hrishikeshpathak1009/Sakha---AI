@@ -141,6 +141,59 @@ async def play_first_video():
 
     return "Playing the first YouTube video."
 
+# ============================================================
+# SKIP YOUTUBE AD
+# ============================================================
+async def is_ad_playing():
+
+    await ensure_browser()
+
+    ad = page.locator(
+        ".video-ads.ytp-ad-module"
+    )
+
+    return await ad.is_visible()
+
+
+async def skip_ad():
+
+    await ensure_browser()
+
+    skip_button = page.locator(
+        ".ytp-ad-skip-button, .ytp-ad-skip-button-modern"
+    ).first
+
+    try:
+
+        await skip_button.wait_for(
+            state="visible",
+            timeout=10000
+        )
+
+        await skip_button.click()
+
+        print("YouTube ad skipped.")
+
+        return "Advertisement skipped."
+
+    except Exception:
+
+        print("No skippable advertisement found.")
+
+        return "No skippable advertisement found."
+
+async def handle_ad():
+
+    if await is_ad_playing():
+
+        print("Advertisement detected.")
+
+        await skip_ad()
+
+    else:
+
+        print("No advertisement.")
+
 
 # ============================================================
 # CLOSE BROWSER

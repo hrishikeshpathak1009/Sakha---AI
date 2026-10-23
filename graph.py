@@ -63,6 +63,13 @@ BROWSER
 - If the user says "open YouTube", open https://www.youtube.com.
 - If the user says "open Google", open https://www.google.com.
 - Do not search YouTube for ordinary conversation.
+- Never call browser_close automatically after completing a task.
+- Keep the browser open between user requests so later commands
+  can interact with the current page and browser session.
+- Call browser_close only when the user explicitly asks to
+  close or shut down the browser.
+- If the user asks to play a video after a YouTube search,
+  reuse the current search results instead of opening a new page.
 
 APPLICATIONS
 - Use open_application only when the user explicitly asks you to open an application.
@@ -160,6 +167,38 @@ OLLAMA_TOOLS = [
             }
         }
     },
+
+#CURRENTLY GLITCHY , WILL IMPLEMENT LATER
+    # {
+    #     "type": "function",
+    #     "function": {
+    #         "name": "CALCULATOR",
+    #         "description": "evaluates mathematical expression given by user.",
+    #         "parameters": {
+    #             "expression" :{
+    #             "type": "string",
+    #             "description": "The mathematical expression to evaluate, such as 25 * 4 or 100 / 5."
+    #             }
+    #         },
+    #         "required":["expression"]
+    #     }
+    # },
+    {
+    "type": "function",
+    "function": {
+        "name": "browser_close",
+        "description": (
+            "Close SAAKHAA's browser and release its "
+            "Playwright resources when the user explicitly "
+            "asks to close or shut down the browser."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    }
+},
 
     {
         "type": "function",

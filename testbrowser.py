@@ -1,11 +1,23 @@
-from browser import start_browser, open_website
 
-start_browser()
+import asyncio
 
-open_website("https://www.youtube.com")
+from browser import (
+    start_browser,
+    open_website,
+    close_browser,
+)
 
-input("Press Enter to stop...")
 
-from browser import close_browser
+async def main():
+    try:
+        await start_browser()
+        await open_website("https://www.youtube.com")
 
-close_browser()
+        input("Press Enter to close the browser...")
+
+    finally:
+        await close_browser()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

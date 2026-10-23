@@ -79,7 +79,7 @@ async def main():
 
             if should_exit(text):
 
-                bolo("Goodbye.")
+                bolo("Goodbye. It was nice serving you")
                 break
 
             # ------------------------------------------------

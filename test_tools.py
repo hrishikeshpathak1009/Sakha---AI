@@ -48,20 +48,13 @@ messages = [
 You are a personal voice assistant.
 
 You have tools.
-
-When the user explicitly asks you to open a website,
-you MUST call browser_open_website.
-
-When the user explicitly asks for the current time,
-you MUST call get_current_time.
-
 Do not answer these requests yourself.
 Use the appropriate tool.
 """
     },
     {
         "role": "user",
-        "content": "open youtube"
+        "content": "FIND 125 x 6"
     }
 ]
 
